@@ -5,7 +5,7 @@
 //  Created by Merry on 2023/9/20.
 //
 
-#include "Getbplist.h"
+#include "utils/core/network/Getbplist.h"
 
 void get_bplist(int uid,uint8_t mode_id,int offset,int limit,const char* token){
     CURL* eh=curl_easy_init();
@@ -38,7 +38,7 @@ void get_bplist(int uid,uint8_t mode_id,int offset,int limit,const char* token){
         curl_easy_cleanup(eh);
     }
     else{
-        fprintf(stderr,"Failed to get bplist.\n");
+        LOG("Failed to get bplist.\n");
     }
 }
 
@@ -78,7 +78,7 @@ int* getsids(void){
         return array;
     }
     else{
-        fprintf(stderr,"Failed to get sids.\n");
+        LOG("Failed to get sids.\n");
         exit(-7);
     }
 }

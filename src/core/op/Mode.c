@@ -5,7 +5,7 @@
 //  Created by Merry on 2023/9/20.
 //
 
-#include "Mode.h"
+#include "utils/core/op/Mode.h"
 
 char* select_mode(uint8_t mode_id){
     char* mode;
@@ -23,7 +23,7 @@ char* select_mode(uint8_t mode_id){
             mode="mania";
             break;
         default:
-            fprintf(stderr,"Mode error.\n");
+            LOG("Mode error.\n");
             exit(-4);
             break;
     }

@@ -17,7 +17,8 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include "util/Basic.h"
+#include "utils/core/network/Basic.h"
+#include "log.h"
 
 int compare(const void* p1,const void* p2);
 void mapdownloader(int* sids,int offset,int limit);

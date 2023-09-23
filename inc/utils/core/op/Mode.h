@@ -10,6 +10,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "log.h"
 
 char* select_mode(uint8_t mode_id);
 

@@ -17,8 +17,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include "cJSON.h"
+#include "log.h"
 
-void read_token(char* tokenstring);
+void read_token(char* tokenstring,int fails);
 void on_token_expire(void);
 void get_token(int clientid,const char* clientsec);
 size_t token_cb(char* buffer,size_t size,size_t nitems,void* userdata);

@@ -5,11 +5,10 @@
 //  Created by Merry on 2023/9/20.
 //
 
-#include "OAuth.h"
+#include "utils/core/auth/OAuth.h"
 
-void read_token(char* tokenstring){
+void read_token(char* tokenstring,int fails){
     FILE* fp=fopen("Cache/token.json","r");
-    int failcount=0;
     if(fp){
         fseek(fp,0,SEEK_END);
         long fsize=ftell(fp);
@@ -40,18 +39,21 @@ void read_token(char* tokenstring){
         cJSON_Delete(root);
     }
     else{
-        if(failcount>1){
-            fprintf(stderr,"Failed to read and get token.\n");
+        fails++;
+        if(fails>1){
+            LOG("Failed to read and get token.\n");
         }
         on_token_expire();
-        read_token(tokenstring);
+        read_token(tokenstring,fails);
     }
 }
 
 void on_token_expire(void){
-    fprintf(stderr,"Failed to read token, will get another.\n");
-    int clientid=5;
-    char* clientsec="FGc9GAtyHzeQDshWP5Ah7dega8hJACAJpQtw6OXk";
+    LOG("Failed to read token, will get another.\n");
+//    int clientid=5;
+//    char* clientsec="FGc9GAtyHzeQDshWP5Ah7dega8hJACAJpQtw6OXk";
+    int clientid=24548;
+    char* clientsec="8ZNaZq1uUo3FF3IHTOQMMXBPicf1Hcj2I1RmdBhY";
     get_token(clientid,clientsec);
 }
 
@@ -74,7 +76,7 @@ void get_token(int clientid,const char* clientsec){
         curl_easy_cleanup(eh);
     }
     else{
-        fprintf(stderr,"Failed to get token.\n");
+        LOG("Failed to get token.\n");
         exit(1);
     }
 }

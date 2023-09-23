@@ -13,9 +13,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include "util/Downloader.h"
-#include "util/Getbplist.h"
-#include "util/OAuth.h"
+#include "utils/core/network/Downloader.h"
+#include "utils/core/network/Getbplist.h"
+#include "utils/core/auth/OAuth.h"
 
 int main(void){
     int* sids;
@@ -27,31 +27,32 @@ int main(void){
     }
     curl_global_init(CURL_GLOBAL_ALL);
     char token[1000]={'\0'};
-    read_token(token);
+    read_token(token,0);
+    
     // Get user info.
 
     printf("Type in the uid you want to get bplist from: ");
     r=scanf("%d",&uid);
     if(r!=1){
-        fprintf(stderr,"uid format error.\n");
+        LOG("uid format error.\n");
         exit(16);
     }
     printf("Type in the mode of the bplist you want to get(0 stands for std, 1 for taiko, 2 for ctb, 3 for mania): ");
-    r=scanf("%d",&mode);
+    r=scanf("%c",&mode);
     if((r!=1)||(mode>3)){
-        fprintf(stderr,"Mode format error.\n");
+        LOG("Mode format error.\n");
         exit(17);
     }
     printf("Type in the start position of the bplist you want to get(0 for default): ");
     r=scanf("%d",&offset);
     if((r!=1)||(offset>100)){
-        fprintf(stderr,"Offset format error.\n");
+        LOG("Offset format error.\n");
         exit(18);
     }
     printf("Type in the end position of the bplist you want to get(100 for default): ");
     r=scanf("%d",&limit);
     if(r!=1||(limit>100)){
-        fprintf(stderr,"Limit format error.\n");
+        LOG("Limit format error.\n");
         exit(19);
     }
     get_bplist(uid,mode,offset,limit,token);
