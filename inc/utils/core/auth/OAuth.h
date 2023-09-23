@@ -18,10 +18,14 @@
 #include <unistd.h>
 #include "cJSON.h"
 #include "log.h"
+#include "utils/core/network/Basic.h"
+#include "utils/core/op/Generic.h"
 
 void read_token(char* tokenstring,int fails);
-void on_token_expire(void);
-void get_token(int clientid,const char* clientsec);
-size_t token_cb(char* buffer,size_t size,size_t nitems,void* userdata);
+char* read_code(void);
+void get_token(void);
+void get_client_credential_token(int clientid,const char* clientsec);
+void get_authorization_code_grant_token(int clientid,const char* clientsec,const char* code);
+void write_token(char* buffer);
 
 #endif /* OAuth_h */

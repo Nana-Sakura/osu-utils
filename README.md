@@ -22,6 +22,15 @@ cd osu-utils
 
 ```
 
+Install compilation dependencies:
+
+```
+
+autoreconf --install
+
+```
+
+
 Thanks to autotools, simply type in: 
 
 ```

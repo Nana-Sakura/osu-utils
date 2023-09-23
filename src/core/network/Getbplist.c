@@ -27,7 +27,7 @@ void get_bplist(int uid,uint8_t mode_id,int offset,int limit,const char* token){
         curl_easy_setopt(eh,CURLOPT_TIMEOUT,30);
         curl_easy_perform(eh);
         
-        // Write bplist to cache.
+        // Write bplist to file.
         
         FILE* fp;
         fp=fopen("Cache/bplist.json","w+");
@@ -43,24 +43,15 @@ void get_bplist(int uid,uint8_t mode_id,int offset,int limit,const char* token){
 }
 
 int* getsids(void){
-    FILE* fp;
-    fp=fopen("Cache/bplist.json","r");
-    if(fp){
-        fseek(fp,0,SEEK_END);
-        long fsize=ftell(fp);
-        if(fsize==0){
-            exit(-1);
-        }
-        fseek(fp,0,SEEK_SET);
-        char ch;
-        char* string=(char*) malloc(fsize);
-        char* ptr=string;
-        while(!feof(fp)){
-            ch=fgetc(fp);
-            * ptr++=ch;
-        }
-        fclose(fp);
-        cJSON* root=cJSON_Parse(string);
+    char* buffer;
+    buffer=read_file("Cache/bplist.json");
+    if(buffer){
+        cJSON* root=cJSON_Parse(buffer);
+
+        // Must free buffer or memory will leak.
+
+        free(buffer);
+
         int arraysize=cJSON_GetArraySize(root);
         cJSON* info;
         cJSON* beatmap;
@@ -78,7 +69,7 @@ int* getsids(void){
         return array;
     }
     else{
-        LOG("Failed to get sids.\n");
+        LOG("File is empty, maybe network error.\n");
         exit(-7);
     }
 }

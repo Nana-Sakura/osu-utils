@@ -16,7 +16,9 @@ void mapdownloader(int* sids,int offset,int limit){
     if(stat("Mapsets",&st)==-1){
         mkdir("Mapsets",0755);
     }
+
     //To make life easier, sort the items before removing the duplicated.
+    
     int j=1,count;
     qsort(sids,limit-offset,sizeof(int),compare);
     for(int i=1;i<limit-offset;i++){

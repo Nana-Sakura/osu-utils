@@ -15,7 +15,7 @@
 #include "cJSON.h"
 
 #include "utils/core/network/Basic.h"
-#include "utils/core/op/Mode.h"
+#include "utils/core/op/Generic.h"
 
 void get_bplist(int uid,uint8_t mode_id,int offset,int limit,const char* token);
 int* getsids(void);
