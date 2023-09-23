@@ -48,7 +48,7 @@ void read_token(char* tokenstring,int fails){
     }
     else{
 
-        // It impossible, isn't it.
+        // It's impossible, isn't it.
 
         fails++;
         LOG("File is empty, maybe network error, will get another token.\n");

@@ -7,7 +7,7 @@
 
 #include "utils/core/network/Getbplist.h"
 
-void get_bplist(int uid,uint8_t mode_id,int offset,int limit,const char* token){
+void get_bplist(int uid,int mode_id,int offset,int limit,const char* token){
     CURL* eh=curl_easy_init();
     if(eh){
         char* mode=select_mode(mode_id);

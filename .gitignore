@@ -1,3 +1,29 @@
+# Compile related folder
+.deps/
+
+# Userdata related folders
+/Cache/
+/Mapsets/
+
+# Autotools related files
+/missing
+/depcomp
+/compile
+/configure
+/config.status
+/install-sh
+/Makefile.in
+/config.h.in
+/config.h
+/Makefile
+/stamp-h1
+/aclocal.m4
+/config.log
+/config.status
+/config.guess
+/config.sub
+autom4te.cache/
+
 # macOS Auto Generate Files
 .DS_Store
 

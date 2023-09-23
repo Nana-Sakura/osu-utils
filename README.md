@@ -9,51 +9,47 @@ osu-utils is a tool currently for downloading beatmaps on others' bplist, may ad
 To build from source, simply clone this repo with:
 
 ```
-
 git clone https://github.com/wxkj123/osu-utils.git
-
 ```
 
 Then go into the directory: 
 
 ```
-
 cd osu-utils
-
 ```
 
-Install compilation dependencies:
+Install dependencies below(Maybe you have to use package manager):
 
 ```
+gcc autoconf automake curl
+```
 
+Prepare compilation scripts:
+
+```
 autoreconf --install
-
 ```
 
 
 Thanks to autotools, simply type in: 
 
 ```
-
 ./configure
-
 ```
 
 Then build with:
 
 ```
-
 make
-
 ```
 
 Enjoy the program with: 
 
 ```
-
 ./osu-utils
-
 ```
+
+Then the beatmaps will be presented in 'Mapsets' folder.
 
 ## Licensing
 
