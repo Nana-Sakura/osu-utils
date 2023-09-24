@@ -9,10 +9,10 @@
 
 size_t cb(char* buffer,size_t size,size_t nitems,void* userdata){
     size_t realsize=size*nitems;
-    struct memory *mem=(struct memory*) userdata;
+    struct memory* mem=(struct memory*) userdata;
     char* ptr=realloc(mem->response,mem->size+realsize+1);
     if(buffer==NULL){
-        LOG("Out of memory.\n");
+        LOG("Out of memory.");
         exit(2);
     }
     mem->response=ptr;

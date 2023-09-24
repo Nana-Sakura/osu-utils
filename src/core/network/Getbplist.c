@@ -38,7 +38,7 @@ void get_bplist(int uid,int mode_id,int offset,int limit,const char* token){
         curl_easy_cleanup(eh);
     }
     else{
-        LOG("Failed to get bplist.\n");
+        LOG("Failed to get bplist.");
     }
 }
 
@@ -69,7 +69,7 @@ int* getsids(void){
         return array;
     }
     else{
-        LOG("File is empty, maybe network error.\n");
+        LOG("File is empty, maybe network error.");
         exit(-7);
     }
 }

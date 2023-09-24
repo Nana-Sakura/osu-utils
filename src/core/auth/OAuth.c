@@ -12,7 +12,7 @@ void read_token(char* tokenstring,int fails){
     // Avoid endless self-call.
 
     if(fails>1){
-        LOG("Failed to read and get token.\n");
+        LOG("Failed to read and get token.");
         exit(64);
     }
     
@@ -35,7 +35,7 @@ void read_token(char* tokenstring,int fails){
         time_t current_time=time(NULL);
         if(current_time-previous_time>=86400){
             fails++;
-            LOG("Token expired, will get another.\n");
+            LOG("Token expired, will get another.");
             get_token();
             read_token(tokenstring,fails);
         }
@@ -51,21 +51,9 @@ void read_token(char* tokenstring,int fails){
         // It's impossible, isn't it.
 
         fails++;
-        LOG("File is empty, maybe network error, will get another token.\n");
+        LOG("File is empty, maybe network error, will get another token.");
         read_token(tokenstring,fails);
     }
-}
-
-char* read_code(void){
-
-    // Simply read the file, regardless of anything.
-    
-    char* string=read_file("Cache/code");
-    if(!string){
-        LOG("Code file exists but it is empty, you have to get another one.");
-        exit(64);
-    }
-    return string;
 }
 
 void get_client_credential_token(int clientid,const char* clientsec){
@@ -99,43 +87,7 @@ void get_client_credential_token(int clientid,const char* clientsec){
 
         // It's totally impossible, isn't it.
 
-        LOG("Failed to make a curl handle.\n");
-        exit(1);
-    }
-}
-
-void get_authorization_code_grant_token(int clientid,const char* clientsec,const char* code){
-    CURL* eh=curl_easy_init();
-    if(eh){
-        struct memory chunk={0};
-        struct curl_slist* list;
-        char data[1200]={'\0'};
-        sprintf(data,"client_id=%d&client_secret=%s&code=%s&grant_type=authorization_code&redirect_uri=http://localhost:4000",clientid,clientsec,code);
-        list=curl_slist_append(NULL,"Accept: application/json");
-        list=curl_slist_append(list,"Content-Type: application/x-www-form-urlencoded");
-        curl_easy_setopt(eh,CURLOPT_URL,"https://osu.ppy.sh/oauth/token");
-        curl_easy_setopt(eh,CURLOPT_HTTPHEADER,list);
-        curl_easy_setopt(eh,CURLOPT_POSTFIELDSIZE,(long)strlen(data));
-        curl_easy_setopt(eh,CURLOPT_POSTFIELDS,data);
-        curl_easy_setopt(eh,CURLOPT_WRITEFUNCTION,cb);
-        curl_easy_setopt(eh,CURLOPT_WRITEDATA,(void*) &chunk);
-        curl_easy_setopt(eh,CURLOPT_TIMEOUT,30);
-        curl_easy_perform(eh);
-
-        // Token has to be written to file.
-        
-        write_token(chunk.response);
-
-        // Cleanup.
-
-        free(chunk.response);
-        curl_easy_cleanup(eh);
-    }
-    else{
-
-        // It's totally impossible, isn't it.
-
-        LOG("Failed to make a curl handle.\n");
+        LOG("Failed to make a curl handle.");
         exit(1);
     }
 }
@@ -147,6 +99,7 @@ void get_token(void){
     int clientid=24548;
     const char* clientsec="8ZNaZq1uUo3FF3IHTOQMMXBPicf1Hcj2I1RmdBhY";
 
+    /* Not going to use authorization code grant token currently.
     // Check code file existence to decide which function to call.
 
     if(test_file_existence("Cache/code")){
@@ -160,8 +113,11 @@ void get_token(void){
     else{
         get_client_credential_token(clientid,clientsec);
     }
+    */
 
-    LOG("Got a token and saved to Cache/token.json.\n");
+    get_client_credential_token(clientid,clientsec);
+    
+    LOG("Got a token and saved to Cache/token.json.");
 }
 
 void write_token(char* buffer){
@@ -191,3 +147,63 @@ void write_token(char* buffer){
 
     cJSON_Delete(root);
 }
+
+/* Not going to use authorization code grant token currently.
+char* read_code(void){
+    char* string=calloc(740,sizeof(char));
+    FILE* fp=fopen("Cache/code","r");
+    for(int i=0;i<740;i++){
+        string[i]=fgetc(fp);
+    }
+    fclose(fp);
+    return string;
+}
+
+void get_code_request(void){
+    char* code;
+    printf("%s","https://osu.ppy.sh/oauth/authorize?client_id=24548&redirect_uri=http://localhost:4000&response_type=code&scope=public+identify\n");
+    printf("%s","Please copy the link above to your browser and then click on \"Authorize\" button.\n");
+    code=receive_code();
+    FILE* fp=fopen("Cache/code","w+");
+    fprintf(fp,"%s",code);
+    fclose(fp);
+    free(code);
+}
+
+void get_authorization_code_grant_token(int clientid,const char* clientsec,const char* code){
+    CURL* eh=curl_easy_init();
+    if(eh){
+        struct memory chunk={0};
+        struct curl_slist* list;
+        char data[1200]={'\0'};
+        sprintf(data,"client_id=%d&client_secret=%s&code=%s&grant_type=authorization_code&redirect_uri=http://localhost:4000",clientid,clientsec,code);
+        printf("%s",data);
+        list=curl_slist_append(NULL,"Accept: application/json");
+        list=curl_slist_append(list,"Content-Type: application/x-www-form-urlencoded");
+        curl_easy_setopt(eh,CURLOPT_URL,"https://osu.ppy.sh/oauth/token");
+        curl_easy_setopt(eh,CURLOPT_HTTPHEADER,list);
+        curl_easy_setopt(eh,CURLOPT_POSTFIELDSIZE,(long)strlen(data));
+        curl_easy_setopt(eh,CURLOPT_POSTFIELDS,data);
+        curl_easy_setopt(eh,CURLOPT_WRITEFUNCTION,cb);
+        curl_easy_setopt(eh,CURLOPT_WRITEDATA,(void*) &chunk);
+        curl_easy_setopt(eh,CURLOPT_TIMEOUT,30);
+        curl_easy_perform(eh);
+
+        // Token has to be written to file.
+
+        write_token(chunk.response);
+
+        // Cleanup.
+
+        free(chunk.response);
+        curl_easy_cleanup(eh);
+    }
+    else{
+
+        // It's totally impossible, isn't it.
+
+        LOG("Failed to make a curl handle.");
+        exit(1);
+    }
+}
+*/

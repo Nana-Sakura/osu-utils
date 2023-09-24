@@ -1,6 +1,6 @@
 # Compile related folder
 .deps/
-
+.dirstamp/
 # Userdata related folders
 /Cache/
 /Mapsets/
@@ -23,6 +23,7 @@
 /config.guess
 /config.sub
 autom4te.cache/
+osu-utils
 
 # macOS Auto Generate Files
 .DS_Store

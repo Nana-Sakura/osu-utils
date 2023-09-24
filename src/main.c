@@ -13,13 +13,10 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-#include "utils/core/network/Downloader.h"
-#include "utils/core/network/Getbplist.h"
 #include "utils/core/auth/OAuth.h"
+#include "utils/core/op/Generic.h"
 
 int main(void){
-    int* sids;
-    int uid,offset,limit,mode,r;
 
     // Check if Cache folder exists, if not will create one.
 
@@ -28,59 +25,47 @@ int main(void){
         mkdir("Cache",0755);
     }
 
+/* Not going to 
+    // Authorization request.
+    char flag;
+    printf("%s","Do you want to give permission to this program?(y=OK, n=Cancel)\n");
+    r=scanf("%c",&flag);
+    if((r==1)&&flag=='y'){
+        get_code_request();
+        LOG("Successfully get access.");
+    }
+*/
     curl_global_init(CURL_GLOBAL_ALL);
     char token[1000]={'\0'};
 
     // Check if token file exists.
 
     if(test_file_existence("Cache/token.json")){
+        LOG("Read existing token.")
         read_token(token,0);
     }
     else{
 
         // Simply get token.
 
+        LOG("Haven't got a token, will get one.");
         get_token();
     }
 
-    // Get user info.
-
-    printf("Type in the uid you want to get bplist from: ");
-    r=scanf("%d",&uid);
-    if(r!=1){
-        LOG("uid format error.\n");
-        exit(16);
+    while(1){
+        switch(menu_select()){
+        case 0:
+            exit(0);
+            break;
+        case 1:
+            Getbeatmapsets(token);
+            break;
+        
+        default:
+            LOG("Invaild input.");
+            break;
+        }
     }
-
-    printf("Type in the mode of the bplist you want to get(0 stands for std, 1 for taiko, 2 for ctb, 3 for mania): ");
-    r=scanf("%d",&mode);
-    if((r!=1)||(mode>3)||(mode<0)){
-        LOG("Mode format error.\n");
-        exit(17);
-    }
-
-    printf("Type in the start position of the bplist you want to get(0 for default): ");
-    r=scanf("%d",&offset);
-    if((r!=1)||(offset>100)){
-        LOG("Offset format error.\n");
-        exit(18);
-    }
-
-    printf("Type in the end position of the bplist you want to get(100 for default): ");
-    r=scanf("%d",&limit);
-    if(r!=1||(limit>100)){
-        LOG("Limit format error.\n");
-        exit(19);
-    }
-
-    // Then get bplist.
-
-    get_bplist(uid,mode,offset,limit,token);
-    sids=getsids();
-
-    // Simply download.
-
-    mapdownloader(sids,offset,limit);
 
     curl_global_cleanup();
     return 0;

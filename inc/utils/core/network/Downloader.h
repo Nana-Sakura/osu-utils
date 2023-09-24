@@ -23,5 +23,4 @@
 int compare(const void* p1,const void* p2);
 void mapdownloader(int* sids,int offset,int limit);
 
-
 #endif /* Downloader_h */
