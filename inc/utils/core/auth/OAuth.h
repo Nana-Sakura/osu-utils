@@ -22,11 +22,8 @@
 #include "utils/core/op/Generic.h"
 
 void read_token(char* tokenstring,int fails);
-char* read_code(void);
 void get_token(void);
 void get_client_credential_token(int clientid,const char* clientsec);
-void get_authorization_code_grant_token(int clientid,const char* clientsec,const char* code);
 void write_token(char* buffer);
-void get_code_request(void);
 
 #endif /* OAuth_h */

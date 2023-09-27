@@ -15,6 +15,7 @@
 
 #include "utils/core/auth/OAuth.h"
 #include "utils/core/op/Generic.h"
+#include "utils/core/op/Bpanalyze.h"
 
 int main(void){
 
@@ -41,7 +42,7 @@ int main(void){
     // Check if token file exists.
 
     if(test_file_existence("Cache/token.json")){
-        LOG("Read existing token.")
+        LOG("Read existing token.");
         read_token(token,0);
     }
     else{
@@ -55,18 +56,26 @@ int main(void){
     while(1){
         switch(menu_select()){
         case 0:
+            LOG("Exiting...");
+//            curl_global_cleanup();
             exit(0);
             break;
         case 1:
             Getbeatmapsets(token);
             break;
-        
+        case 2:
+            Bpa(token);
+            break;
+        case 3:
+            Bpame(token);
+            break;
+        case 9:
+            Setid();
+            break;
         default:
             LOG("Invaild input.");
             break;
         }
     }
-
-    curl_global_cleanup();
     return 0;
 }

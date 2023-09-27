@@ -19,8 +19,9 @@
 
 #include "utils/core/network/Basic.h"
 #include "log.h"
+#include "cJSON.h"
 
 int compare(const void* p1,const void* p2);
-void mapdownloader(int* sids,int offset,int limit);
+void mapdownloader(char* bplist,int offset,int limit);
 
 #endif /* Downloader_h */

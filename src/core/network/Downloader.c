@@ -11,7 +11,37 @@ int compare(const void* p1,const void* p2){
     return (*(int*) p1)-(*(int*) p2);
 }
 
-void mapdownloader(int* sids,int offset,int limit){
+void mapdownloader(char* bplist,int offset,int limit){
+
+    // Do prepare jobs.
+
+    if(!bplist){
+        LOG("Bplist is empty, maybe network error.");
+        exit(-7);
+    }
+    
+    cJSON* root=cJSON_Parse(bplist);
+
+    // Must free buffer or memory will leak.
+
+    free(bplist);
+
+    int arraysize=cJSON_GetArraySize(root);
+    cJSON* info;
+    cJSON* beatmap;
+    cJSON* siditem;
+    int sid;
+    int* array=(int*) malloc(arraysize*sizeof(int));
+    for(int i=0;i<arraysize;i++){
+        info=cJSON_GetArrayItem(root,i);
+        beatmap=cJSON_GetObjectItem(info,"beatmap");
+        siditem=cJSON_GetObjectItem(beatmap,"beatmapset_id");
+        sid=siditem->valueint;
+        array[i]=sid;
+    }
+    cJSON_Delete(root);
+
+
     struct stat st={0};
     if(stat("Mapsets",&st)==-1){
         mkdir("Mapsets",0755);
@@ -20,10 +50,10 @@ void mapdownloader(int* sids,int offset,int limit){
     //To make life easier, sort the items before removing the duplicated.
     
     int j=1,count;
-    qsort(sids,limit-offset,sizeof(int),compare);
+    qsort(array,arraysize,sizeof(int),compare);
     for(int i=1;i<limit-offset;i++){
-        if(sids[i]!=sids[i-1]){
-            sids[j++]=sids[i];
+        if(array[i]!=array[i-1]){
+            array[j++]=array[i];
         }
     }
     count=j;
@@ -38,7 +68,7 @@ void mapdownloader(int* sids,int offset,int limit){
         if(downloader){
             struct memory chunk={0};
             char url[60];
-            sprintf(url,"https://dl.sayobot.cn/beatmaps/download/full/%d",sids[i]);
+            sprintf(url,"https://dl.sayobot.cn/beatmaps/download/full/%d",array[i]);
             curl_easy_setopt(downloader,CURLOPT_URL,url);
             curl_easy_setopt(downloader,CURLOPT_FOLLOWLOCATION,1);
             curl_easy_setopt(downloader,CURLOPT_WRITEFUNCTION,cb);
@@ -46,7 +76,7 @@ void mapdownloader(int* sids,int offset,int limit){
             curl_easy_perform(downloader);
             FILE* fp;
             char fname[20];
-            sprintf(fname,"Mapsets/%d.osz",sids[i]);
+            sprintf(fname,"Mapsets/%d.osz",array[i]);
             fp=fopen(fname,"wb");
             fwrite(chunk.response,sizeof(char),chunk.size,fp);
             fclose(fp);
