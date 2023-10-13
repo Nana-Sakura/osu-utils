@@ -12,7 +12,7 @@
 #include <string.h>
 #include "cJSON.h"
 
-#include "utils/core/network/Getbplist.h"
+#include "utils/core/op/Score.h"
 
 void Getbpht(int uid,int mode,const char* token);
 

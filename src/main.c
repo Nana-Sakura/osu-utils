@@ -61,15 +61,36 @@ int main(void){
             exit(0);
             break;
         case 1:
-            Getbeatmapsets(token);
+            get_beatmapsets(token);
             break;
         case 2:
-            Bpa(token);
+            Bpa(0,token);
             break;
         case 3:
-            Bpame(token);
+            Bpa(1,token);
+            break;
+        case 4:
+            score(0,token);
+            break;
+        case 5:
+            score(1,token);
+            break;
+        case 6:
+            recent(1,1,1,token);
+            break;
+        case 7:
+            recent(1,0,1,token);
+            break;
+        case 8:
+            recent(1,1,0,token);
             break;
         case 9:
+            recent(1,0,0,token);
+            break;
+        case 10:
+            calc_mania_pp();
+            break;
+        case 99:
             Setid();
             break;
         default:

@@ -1,6 +1,8 @@
-# Compile related folder
+# Compile related folder and files
 .deps/
 .dirstamp/
+.dirstamp
+
 # Userdata related folders
 /Cache/
 /Mapsets/

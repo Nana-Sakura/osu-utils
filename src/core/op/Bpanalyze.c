@@ -10,7 +10,7 @@
 void Getbpht(int uid,int mode,const char* token){
 
     char* bplist;
-    bplist=get_bplist(uid,mode,0,100,token);
+    bplist=get_score_list(uid,mode,0,100,0,0,token);
 
     // Start the work.
 
@@ -86,20 +86,14 @@ void Getbpht(int uid,int mode,const char* token){
             scoreid=cJSON_GetNumberValue(best_id);
 
             // Get Mods applied.
-            char* mods_string=malloc((3*mod_sum+2)*sizeof(char));
-            if(mod_sum==0){
-                strcpy(mods_string," ");
-            }
-            else{
-                mods_string[0]='+';
-                for(int j=0;j<mod_sum;j++){
-                    cJSON* mod=cJSON_GetArrayItem(mods,j);
-                    strcat(mods_string,mod->valuestring);
-                    mods_string[3*(j+1)]=' ';
-                }
-            }
+            
+            char* mods_string=mod_intro(mods);
 
-            printf("#%d %.2f %.2f%%%shttps://osu.ppy.sh/scores/%s/%ld\n",(i+1),pp->valuedouble,100*acc->valuedouble,mods_string,select_mode(mode),scoreid);
+            printf("#%d %.2f %.2f%% %s%shttps://osu.ppy.sh/scores/%s/%ld\n",(i+1),pp->valuedouble,100*acc->valuedouble,rank_value,mods_string,select_mode(mode),scoreid);
+            
+            // Clean up.
+
+            free(mods_string);
         }
 
         // Accumulate.
@@ -150,4 +144,5 @@ void Getbpht(int uid,int mode,const char* token){
 
     cJSON_Delete(root);
     cJSON_Delete(mod_statistics);
+    free(bplist);
 }
