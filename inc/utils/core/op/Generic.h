@@ -55,5 +55,6 @@ void recent(int score_request_mode,int info_get_mode,int include_fails,const cha
 struct personal_info get_info(int check_mode);
 char* strfsec(int length);
 void calc_mania_pp(void);
+void show_progress(int task_now,int task_sum,int width);
 
 #endif /* Generic_h */

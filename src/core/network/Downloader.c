@@ -64,6 +64,13 @@ void mapdownloader(char* bplist,int offset,int limit){
     CURL* downloader;
     
     for(int i=0;i<count;i++){
+
+        // Show Progress.
+        
+        show_progress(i,count,70);
+
+        // Download Progress.
+
         downloader=curl_easy_init();
         if(downloader){
             struct memory chunk={0};
@@ -84,4 +91,6 @@ void mapdownloader(char* bplist,int offset,int limit){
             curl_easy_cleanup(downloader);
         }
     }
+    show_progress(count,count,70);
+    printf("\n");
 }

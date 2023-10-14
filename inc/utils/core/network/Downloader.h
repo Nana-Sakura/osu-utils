@@ -16,10 +16,11 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-
-#include "utils/core/network/Basic.h"
-#include "log.h"
 #include "cJSON.h"
+
+#include "log.h"
+#include "utils/core/network/Basic.h"
+#include "utils/core/op/Generic.h"
 
 int compare(const void* p1,const void* p2);
 void mapdownloader(char* bplist,int offset,int limit);

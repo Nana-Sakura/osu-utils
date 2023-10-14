@@ -106,41 +106,40 @@ int menu_select(void){
     printf("99.Set your ID and default game mode.\n");
     printf("0. Quit.\n");
     printf("Your selection: ");
-    scanf("%d",&select);
+    while((scanf("%d",&select)<1)||(select<0)||(select>99)){
+        LOG("Selection error, please type in again.");
+        fflush(stdin);
+    }
     printf("\n");
     return select;
 }
 
 void get_beatmapsets(const char* token){
-    int uid,offset,limit,mode,r;
+    int uid,offset,limit,mode;
     char* bplist;
 
     printf("Type in the uid you want to get bplist from: ");
-    r=scanf("%d",&uid);
-    if(r!=1){
-        LOG("uid format error.");
-        exit(16);
+    while((scanf("%d",&uid)<1)||uid<0){
+        LOG("uid format error, please type in again");
+        fflush(stdin);
     }
 
     printf("Type in the mode of the bplist you want to get(0 stands for std, 1 for taiko, 2 for ctb, 3 for mania): ");
-    r=scanf("%d",&mode);
-    if((r!=1)||(mode>3)||(mode<0)){
-        LOG("Mode format error.");
-        exit(16);
+    while((scanf("%d",&mode)<1)||(mode>3)||(mode<0)){
+        LOG("Mode format error, please type in again");
+        fflush(stdin);
     }
 
     printf("Type in the start position of the bplist you want to get(0 for default): ");
-    r=scanf("%d",&offset);
-    if((r!=1)||(offset>100)){
-        LOG("Offset format error.");
-        exit(16);
+    while((scanf("%d",&offset)<1)||(offset>100)){
+        LOG("Offset format error, please type in again");
+        fflush(stdin);
     }
 
     printf("Type in the end position of the bplist you want to get(100 for default): ");
-    r=scanf("%d",&limit);
-    if(r!=1||(limit>100)){
-        LOG("Limit format error.");
-        exit(16);
+    while((scanf("%d",&limit)<1)||(limit>100)){
+        LOG("Limit format error, please type in again");
+        fflush(stdin);
     }
 
     // Then get bplist.
@@ -158,20 +157,18 @@ void Bpa(int check_mode,const char* token){
 }
 
 void Setid(void){
-    int r,uid,mode;
+    int uid,mode;
 
     printf("Type in your uid: ");
-    r=scanf("%d",&uid);
-    if(r!=1){
-        LOG("uid format error.");
-        exit(16);
+    while((scanf("%d",&uid)<1)||(uid<0)){
+        LOG("uid format error, please type in again");
+        fflush(stdin);
     }
 
     printf("Type in the mode you aimed at(0 stands for std, 1 for taiko, 2 for ctb, 3 for mania): ");
-    r=scanf("%d",&mode);
-    if((r!=1)||(mode>3)||(mode<0)){
-        LOG("Mode format error.");
-        exit(16);
+    while((scanf("%d",&mode)<1)||(mode>3)||(mode<0)){
+        LOG("Mode format error, please type in again");
+        fflush(stdin);
     }
 
     cJSON* info=cJSON_CreateObject();
@@ -211,14 +208,14 @@ void score(int info_get_mode,const char* token){
 
     // Get score and beatmap info.
 
-    int beatmap_id,r;
+    int beatmap_id;
 
     printf("Type in the id of the beatmap(bid): ");
-    r=scanf("%d",&beatmap_id);
-    if((r==0)||(beatmap_id<=0)){
-        LOG("BID format error.");
-        return;
+    while((scanf("%d",&beatmap_id)<1)||(beatmap_id<=0)){
+        LOG("BID format error, please type in again");
+        fflush(stdin);
     }
+
     char* score=get_beatmap_score(i.uid,i.mode,beatmap_id,token);
     char* info=get_beatmap_info(beatmap_id,token);
 
@@ -250,9 +247,9 @@ struct personal_info get_info(int check_mode){
     struct personal_info result;
     cJSON* root;
     if(check_mode){
-        if(!test_file_existence("Cache/user.json")){
+        while(!test_file_existence("Cache/user.json")){
             LOG("You haven't set your ID and default mode.");
-            exit(16);
+            Setid();
         }
         char* me=read_file("Cache/user.json");
         root=cJSON_Parse(me);
@@ -264,19 +261,16 @@ struct personal_info get_info(int check_mode){
         cJSON_Delete(root);
     }
     else{
-        int r;
         printf("Type in the uid you want to score from: ");
-        r=scanf("%d",&result.uid);
-        if(r!=1){
-            LOG("uid format error.");
-            exit(16);
+        while((scanf("%d",&result.uid)<1)||(result.uid<0)){
+            LOG("uid format error, please type in again");
+            fflush(stdin);
         }
 
         printf("Type in the mode of the score you want to get(0 stands for std, 1 for taiko, 2 for ctb, 3 for mania): ");
-        r=scanf("%d",&result.mode);
-        if((r!=1)||(result.mode>3)||(result.mode<0)){
-            LOG("Mode format error.");
-            exit(16);
+        while((scanf("%d",&result.mode)<1)||(result.mode>3)||(result.mode<0)){
+            LOG("Mode format error, please type in again");
+            fflush(stdin);
         }
     }
 
@@ -308,69 +302,60 @@ char* strfsec(int length){
 
 void calc_mania_pp(void){
     struct statistics_mania i;
-    int r,ez,nf;
+    int ez,nf;
 
     printf("Type in the count of rainbow 300: ");
-    r=scanf("%u",&i.perfect);
-    if((r==0)||(i.perfect<0)){
-        LOG("Format error.");
-        return;
+    while((scanf("%u",&i.perfect)<1)||(i.perfect<0)){
+        LOG("Count format error, please type in again");
+        fflush(stdin);
     }
 
     printf("Type in the count of yellow 300: ");
-    r=scanf("%u",&i.great);
-    if((r==0)||(i.great<0)){
-        LOG("Format error.");
-        return;
+    while((scanf("%u",&i.great)<1)||(i.great<0)){
+        LOG("Count format error, please type in again");
+        fflush(stdin);
     }
 
     printf("Type in the count of 200: ");
-    r=scanf("%u",&i.good);
-    if((r==0)||(i.good<0)){
-        LOG("Format error.");
-        return;
+    while((scanf("%u",&i.good)<1)||(i.good<0)){
+        LOG("Count format error, please type in again");
+        fflush(stdin);
     }
 
     printf("Type in the count of 100: ");
-    r=scanf("%u",&i.ok);
-    if((r==0)||(i.ok<0)){
-        LOG("Format error.");
-        return;
+    while((scanf("%u",&i.ok)<1)||(i.ok<0)){
+        LOG("Count format error, please type in again");
+        fflush(stdin);
     }
 
     printf("Type in the count of 50: ");
-    r=scanf("%u",&i.meh);
-    if((r==0)||(i.meh<0)){
-        LOG("Format error.");
-        return;
+    while((scanf("%u",&i.meh)<1)||(i.meh<0)){
+        LOG("Count format error, please type in again");
+        fflush(stdin);
     }
 
     printf("Type in the count of miss: ");
-    r=scanf("%u",&i.miss);
-    if((r==0)||(i.miss<0)){
-        LOG("Format error.");
-        return;
+    while((scanf("%u",&i.miss)<1)||(i.miss<0)){
+        LOG("Count format error, please type in again");
+        fflush(stdin);
     }
 
     printf("Type in the Star Rating of the beatmap: ");
-    r=scanf("%f",&i.sr);
-    if((r==0)||(i.sr<0)){
-        LOG("Format error.");
-        return;
+    while((scanf("%f",&i.sr)<1)||(i.sr<0)){
+        LOG("Star Rating format error, please type in again");
+        fflush(stdin);
     }
 
     printf("Type in the if you have applied EZ mod(0 stands for no, 1 for yes): ");
-    r=scanf("%d",&ez);
-    if((r==0)||(ez<0)||(ez>1)){
-        LOG("Format error.");
-        return;
+    while((scanf("%d",&ez)<1)||(ez<0)||(ez>1)){
+        LOG("Input format error, please type in again");
+        fflush(stdin);
     }
 
     printf("Type in the if you have applied NF mod(0 stands for no, 1 for yes): ");
-    r=scanf("%d",&nf);
-    if((r==0)||(nf<0)||(nf>1)){
-        LOG("Format error.");
-        return;
+    while((scanf("%d",&nf)<1)||(nf<0)||(nf>1)){
+        LOG("Input format error, please type in again");
+        fflush(stdin);
     }
 
     cJSON* mods=cJSON_CreateArray();
@@ -386,4 +371,23 @@ void calc_mania_pp(void){
     mania_pp(i,mods);
     
     cJSON_Delete(mods);
+}
+
+void show_progress(int task_now,int task_sum,int width){
+    float progress=(float)task_now/(float)task_sum;
+    int end_position=width*progress;
+    printf("[");
+    for(int i=0;i<width;i++){
+        if(i<end_position){
+            printf("=");
+        }
+        else if(i==end_position){
+            printf(">");
+        }
+        else{
+            printf(" ");
+        }
+    }
+    printf("] %.1f%%\r",progress*(float)100);
+    fflush(stdout);
 }
