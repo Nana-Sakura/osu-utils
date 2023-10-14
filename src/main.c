@@ -41,17 +41,16 @@ int main(void){
 
     // Check if token file exists.
 
-    if(test_file_existence("Cache/token.json")){
-        LOG("Read existing token.");
-        read_token(token,0);
-    }
-    else{
+    int token_fail_count=0;
 
-        // Simply get token.
-
-        LOG("Haven't got a token, will get one.");
+    while((!test_file_existence("Cache/token.json"))&&(token_fail_count<3)){
+        LOG("token does not exist, will get one.");
         get_token();
+        token_fail_count++;
     }
+
+    LOG("Read existing token.");
+    read_token(token,0);
 
     while(1){
         switch(menu_select()){
