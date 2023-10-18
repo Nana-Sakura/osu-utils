@@ -19,7 +19,7 @@ char* get_beatmap_info(int beatmap_id,const char* cc_token){
 }
 
 char* get_own_personal_info(const char* acg_token){
-    const char* url="https://osu.ppy.sh/api/v2/users/me";
+    const char* url="https://osu.ppy.sh/api/v2/me";
     return curl_get_request(url,acg_token);
 }
 

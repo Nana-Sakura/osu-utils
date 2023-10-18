@@ -10,7 +10,7 @@ char* read_file(const char* path){
     FILE* fp=fopen(path,"r");
     size_t file_size=get_file_size(path);
     char* string=calloc((file_size+1),sizeof(char));
-    fgets(string,(file_size+1),fp);
+    fread((void*) string,sizeof(char),file_size,fp);
     fclose(fp);
     return string;
 }
@@ -29,7 +29,7 @@ time_t get_last_modified_time(const char* path){
 
 int check_expire(const char* path){
     time_t current_time=time(NULL);
-    int time_delta=current_time-get_last_modified_time(path);
+    size_t time_delta=current_time-get_last_modified_time(path);
     return (time_delta<86400)?0:-1;
 }
 

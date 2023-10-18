@@ -2,14 +2,19 @@
 #define Generic_h
 
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdint.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <time.h>
 #include <unistd.h>
 #include "cJSON.h"
 #include "log.h"
+
+#if defined (_WIN32)||defined(__WIN32__)||defined(__MINGW32__)||(defined(__linux__)&&!defined(__ANDROID__))
+#define st_mtimespec st_mtim
+#endif
 
 #define osu_mode_Strings ((const char*[]){"osu","taiko","fruits","mania"})
 

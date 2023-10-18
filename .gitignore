@@ -26,6 +26,7 @@
 /config.sub
 autom4te.cache/
 osu-utils
+configure~
 
 # macOS Auto Generate Files
 .DS_Store
