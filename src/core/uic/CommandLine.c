@@ -9,7 +9,7 @@ int menu_select(void){
     printf("3. Get Score of a specified beatmap of yourself.\n");
     printf("4. Get Score of your recently passed beatmap.\n");
     printf("5. Get Score of your recently played beatmap.\n");
-    printf("6. Get Bpht of anyone\n");
+    printf("6. Get Bpht of anyone.\n");
     printf("7. Get Score of a specified beatmap of anyone.\n");
     printf("8. Get Score of other's recently passed beatmap.\n");
     printf("9. Get Score of other's recently played beatmap.\n");

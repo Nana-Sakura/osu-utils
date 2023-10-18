@@ -58,7 +58,7 @@ void get_score(char* beatmap_score,char* beatmap_info){
     }
     printf("%s - %s [%s]\n",artist->valuestring,title->valuestring,diff->valuestring);
     printf("%.2f* %s\n",sr->valuedouble,length_str);
-    printf("[%s] %s%d (%.3fpp)\n",rank->valuestring,mod_introed,score_value->valueint,pp->valuedouble);
+    printf("[%s]%s%d (%.3fpp)\n",rank->valuestring,mod_introed,score_value->valueint,pp->valuedouble);
     printf("%dx / %dx // %.3f%%\n",combo->valueint,full_combo->valueint,100*accuracy->valuedouble);
     
     // osu!mania specifies.
@@ -151,7 +151,7 @@ void get_recent(char* rct,const char* token){
     }
     printf("%s - %s [%s]\n",artist->valuestring,title->valuestring,diff->valuestring);
     printf("%.2f* %s\n",sr->valuedouble,length_str);
-    printf("[%s] %s%d (%.3fpp)\n",rank->valuestring,mod_introed,score_value->valueint,pp->valuedouble);
+    printf("[%s]%s%d (%.3fpp)\n",rank->valuestring,mod_introed,score_value->valueint,pp->valuedouble);
     printf("%dx / %dx // %.3f%%\n",combo->valueint,full_combo->valueint,100*accuracy->valuedouble);
     
     // osu!mania specifies.
