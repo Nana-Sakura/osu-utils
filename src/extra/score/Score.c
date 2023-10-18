@@ -1,38 +1,10 @@
-//
-//  Getscore.c
-//  osu-utils
-//
-//  Created by Merry on 2023/9/20.
-//
+#include "utils/extra/score/Score.h"
 
-#include "utils/core/op/Score.h"
-
-char* get_score_list(int uid,int mode_id,int offset,int limit,int check_mode_id,int include_fails,const char* token){
-    char* mode=select_mode(mode_id);
-    char* check_mode=select_check_mode(check_mode_id);
-    char url[114];
-    sprintf(url,"https://osu.ppy.sh/api/v2/users/%d/scores/%s?include_fails=%d&mode=%s&limit=%d&offset=%d",uid,check_mode,include_fails,mode,limit,offset);
-    return curl_request(url,token);
-}
-
-char* get_beatmap_score(int uid,int mode_id,int beatmap_id,const char* token){
-    char url[114];
-    char* mode=select_mode(mode_id);
-    sprintf(url,"https://osu.ppy.sh/api/v2/beatmaps/%d/scores/users/%d?mode=%s&mods=minus",beatmap_id,uid,mode);
-    return curl_request(url,token);
-}
-
-char* get_beatmap_info(int beatmap_id, const char* token){
-    char url[100];
-    sprintf(url,"https://osu.ppy.sh/api/v2/beatmaps/lookup?id=%d",beatmap_id);
-    return curl_request(url,token);
-}
-
-void get_score(char* beatmapscore, char* beatmapinfo){
+void get_score(char* beatmap_score,char* beatmap_info){
 
     // Parsing from first json respond.
 
-    cJSON* root=cJSON_Parse(beatmapscore);
+    cJSON* root=cJSON_Parse(beatmap_score);
     cJSON* score=cJSON_GetObjectItem(root,"score");
     cJSON* user=cJSON_GetObjectItem(score,"user");
     cJSON* username=cJSON_GetObjectItem(user,"username");
@@ -59,7 +31,7 @@ void get_score(char* beatmapscore, char* beatmapinfo){
     
     // Another.
 
-    cJSON* info=cJSON_Parse(beatmapinfo);
+    cJSON* info=cJSON_Parse(beatmap_info);
     cJSON* beatmapset=cJSON_GetObjectItem(info,"beatmapset");
     cJSON* artist=cJSON_GetObjectItem(beatmapset,"artist");
     cJSON* title=cJSON_GetObjectItem(beatmapset,"title");
@@ -71,7 +43,7 @@ void get_score(char* beatmapscore, char* beatmapinfo){
 
     // Mod introduction.
 
-    char* mod_introed=mod_intro(mods);
+    char* mod_introed=strf_mod_intro(mods);
 
     // osu!mania specifies.
 
@@ -116,6 +88,14 @@ void get_recent(char* rct,const char* token){
     // Parsing from first json respond.
 
     cJSON* root=cJSON_Parse(rct);
+
+    // Check if there is no score.
+
+    if(cJSON_GetArraySize(root)==0){
+        LOG("This user did not play recently.");
+        return;
+    }
+
     cJSON* score=cJSON_GetArrayItem(root,0);
     cJSON* user=cJSON_GetObjectItem(score,"user");
     cJSON* username=cJSON_GetObjectItem(user,"username");
@@ -156,7 +136,7 @@ void get_recent(char* rct,const char* token){
 
     // Mod introduction.
 
-    char* mod_introed=mod_intro(mods);
+    char* mod_introed=strf_mod_intro(mods);
 
     // osu!mania specifies.
 

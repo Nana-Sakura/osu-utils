@@ -1,12 +1,3 @@
-//
-//  Socket.c
-//  osu-utils
-//
-//  Created by Merry on 2023/9/24.
-//
-
-// Not going to use Socket currently.
-
 #include "utils/core/network/Socket.h"
 
 char* receive_code(void){
@@ -14,7 +5,7 @@ char* receive_code(void){
     char readbuf[4096]={'\0'};
     char* code=malloc(1024*sizeof(char));
 
-    // Make Socket to monitor localhost:4000.
+    // Monitor localhost:4000.
 
     s_fd=socket(AF_INET,SOCK_STREAM,0);
     struct sockaddr_in s_addr;

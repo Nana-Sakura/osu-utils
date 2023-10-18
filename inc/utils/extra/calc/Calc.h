@@ -1,21 +1,16 @@
-//
-//  Calcpp.h
-//  osu-utils
-//
-//  Created by Merry on 2023/10/4.
-//
-
-#ifndef Calcpp_h
-#define Calcpp_h
+#ifndef Calc_h
+#define Calc_h
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 #include <math.h>
 #include "cJSON.h"
 
-#include "utils/core/op/Calcpp.h"
-#include "utils/core/op/Generic.h"
+#include "utils/extra/calc/Calc.h"
+
+#define perfect_value ((const int[]){300,305,315,320})
 
 struct statistics_mania{
     uint32_t perfect;
@@ -27,9 +22,15 @@ struct statistics_mania{
     float sr;
 };
 
+enum perfect{
+    Score_V1=0,
+    Score_V2=1,
+    Score_Lazer=2,
+    Score_PP=3
+};
+
 float difficulty(float accpp);
-int perfect_value(int score_mode);
-float acc_calc(int score_mode,struct statistics_mania i);
+float acc_calc(int pft,struct statistics_mania i);
 float multiplier(cJSON* mods);
 float maximumpp(struct statistics_mania i,float multiplier);
 void mania_pp(struct statistics_mania i,cJSON* mods);

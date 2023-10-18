@@ -1,10 +1,3 @@
-//
-//  OAuth.h
-//  osu-utils
-//
-//  Created by Merry on 2023/9/20.
-//
-
 #ifndef OAuth_h
 #define OAuth_h
 
@@ -12,18 +5,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <curl/curl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
 #include "cJSON.h"
 #include "log.h"
-#include "utils/core/network/Basic.h"
-#include "utils/core/op/Generic.h"
 
-void read_token(char* tokenstring,int fails);
-void get_token(void);
-void get_client_credential_token(int clientid,const char* clientsec);
-void write_token(char* buffer);
+#include "utils/core/network/Requests.h"
+#include "utils/core/network/Socket.h"
+#include "utils/core/util/Generic.h"
+
+char* get_client_credential_token(void);
+char* get_authorization_code_grant_token(void);
+char* read_token(int token_type);
+void write_token(int token_type,const char* token_json);
+void get_code_request(void);
+void get_token(int token_type);
 
 #endif /* OAuth_h */
