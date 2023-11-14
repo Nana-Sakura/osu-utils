@@ -1,0 +1,6 @@
+#!/bin/sh
+# Scan sources and update Makefile.am
+# Author: Andy-K-Sparklight
+files=`find ./ -type f | grep -E '\.cxx$$|\.c$$|\.cc$$|\.hxx$$|\.hh$$|\.hpp$$|\.h$$' | sed 's/\.\//\\$(top_srcdir)\//g'`
+soft=osu_utils
+sed -i '/.*_SOURCES.*/c\'"$soft"'_SOURCES='"$(echo $files | sed -e 's/\\/\\\\/g; s/\//\\\//g; s/&/\\\&/g')"'' Makefile.am

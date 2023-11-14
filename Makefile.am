@@ -1,31 +1,38 @@
-AUTOMAKE_OPTIONS=foreign subdir-objects
+AUTOMAKE_OPTIONS=foreign
 bin_PROGRAMS=osu-utils
 CommonFlags=-I$(top_srcdir)/inc -O2 -Wall -Wno-unknown-pragmas -Wno-enum-compare -Wno-deprecated-declarations -fmacro-prefix-map=$(top_srcdir)/src/=
 
-osu_utils_CFLAGS=-std=gnu2x
-osu_utils_CFLAGS+=$(CommonFlags)
-osu_utils_LDADD=-lm -lcurl -lwebview
+AM_CFLAGS=-std=gnu2x
+AM_CXXFLAGS=$(CommonFlags)
+AM_CFLAGS+=$(CommonFlags)
+
+osu_utils_LDADD=-lm -lcurl
 
 if WINDOWS
-osu_utils_LDFLAGS=-static-libgcc -static-libstdc++ -Wl,-Bstatic -lpthread
+AM_CXXFLAGS+=-std=c++23
+AM_CFLAGS+=-DCURL_STATICLIB
+osu_utils_LDADD+=-lws2_32 -lshell32 -lshlwapi -luser32
+osu_utils_LDFLAGS=-static-libstdc++ -static-libgcc -lpthread
 endif
 
 if LINUX
-osu_utils_LDFLAGS=$(GTK_LDFLAGS) $(WEBKIT_LDFLAGS)
-osu_utils_LDADD+=$(GTK_LIBS) $(WEBKIT_LIBS)
+AM_CXXFLAGS+=-std=c++2b
 endif
 
 if OSX
-osu_utils_LDFLAGS=-L.
+AM_CXXFLAGS+=-std=c++2b
+
 if ARM
 # Flags for macOS ARM
-osu_utils_CFLAGS+=-I/opt/homebrew/include
+AM_CXXFLAGS+=-I/opt/homebrew/include
+AM_CFLAGS+=-I/opt/homebrew/include
 osu_utils_LDFLAGS=-L/opt/homebrew/lib
 else
 # Flags for macOS x86
-osu_utils_CFLAGS+=-I/usr/local/include
+AM_CXXFLAGS+=-I/usr/local/include
+AM_CFLAGS+=-I/usr/local/include
 osu_utils_LDFLAGS=-L/usr/local/lib
 endif
 endif
 
-osu_utils_SOURCES=$(top_srcdir)/config.h $(top_srcdir)/inc/cJSON.h $(top_srcdir)/inc/log.h $(top_srcdir)/inc/webview.h $(top_srcdir)/inc/utils/core/auth/OAuth.h $(top_srcdir)/inc/utils/core/network/Downloader.h $(top_srcdir)/inc/utils/core/network/Requests.h $(top_srcdir)/inc/utils/core/op/Socket.h $(top_srcdir)/inc/utils/core/op/CalcManiaPP.h $(top_srcdir)/inc/utils/core/op/CheckScore.h $(top_srcdir)/inc/utils/core/op/GetBeatmapSets.h $(top_srcdir)/inc/utils/core/op/GetBPA.h $(top_srcdir)/inc/utils/core/op/Query.h $(top_srcdir)/inc/utils/core/profile/AccountProfile.h $(top_srcdir)/inc/utils/uic/CommandLine.h $(top_srcdir)/inc/utils/util/Generic.h $(top_srcdir)/inc/utils/extra/calc/Calc.h $(top_srcdir)/inc/utils/extra/score/Analyze.h $(top_srcdir)/inc/utils/extra/score/Score.h $(top_srcdir)/src/core/auth/OAuth.c $(top_srcdir)/src/core/network/Downloader.c $(top_srcdir)/src/core/network/Requests.c $(top_srcdir)/src/core/network/Socket.c $(top_srcdir)/src/core/op/CalcManiaPP.c $(top_srcdir)/src/core/op/CheckScore.c $(top_srcdir)/src/core/op/GetBeatmapSets.c $(top_srcdir)/src/core/op/GetBPA.c $(top_srcdir)/src/core/op/Query.c $(top_srcdir)/src/core/profile/AccountProfile.c $(top_srcdir)/src/uic/CommandLine.c $(top_srcdir)/src/util/Generic.c $(top_srcdir)/src/extra/calc/Calc.c $(top_srcdir)/src/extra/score/Analyze.c $(top_srcdir)/src/extra/score/Score.c $(top_srcdir)/src/libimpl/cJSON.c $(top_srcdir)/src/main.c
+osu_utils_SOURCES=$(top_srcdir)/build/config.h $(top_srcdir)/inc/cJSON.h $(top_srcdir)/inc/utils/core/auth/ClientCredential.hh $(top_srcdir)/inc/utils/core/auth/AuthorizationCodeGrant.hh $(top_srcdir)/inc/utils/core/op/GetBeatmapSets.hh $(top_srcdir)/inc/utils/core/op/Query.hh $(top_srcdir)/inc/utils/core/op/Token.hh $(top_srcdir)/inc/utils/core/op/GetBPA.hh $(top_srcdir)/inc/utils/core/op/CheckScore.hh $(top_srcdir)/inc/utils/core/network/Requests.hh $(top_srcdir)/inc/utils/core/network/Socket.hh $(top_srcdir)/inc/utils/core/network/Download.hh $(top_srcdir)/inc/utils/core/score/Analyze.hh $(top_srcdir)/inc/utils/core/score/ParseScore.hh $(top_srcdir)/inc/utils/core/profile/AccountProfile.hh $(top_srcdir)/inc/utils/util/Commons.hh $(top_srcdir)/inc/utils/uic/Brain.hh $(top_srcdir)/inc/utils/uic/CommandLine.hh $(top_srcdir)/inc/utils/extra/calc/CalcManiaPP.hh $(top_srcdir)/inc/log.hh $(top_srcdir)/src/Main.cc $(top_srcdir)/src/core/auth/AuthorizationCodeGrant.cc $(top_srcdir)/src/core/auth/ClientCredential.cc $(top_srcdir)/src/core/op/GetBeatmapSets.cc $(top_srcdir)/src/core/op/GetBPA.cc $(top_srcdir)/src/core/op/CheckScore.cc $(top_srcdir)/src/core/op/Query.cc $(top_srcdir)/src/core/op/Token.cc $(top_srcdir)/src/core/network/Requests.cc $(top_srcdir)/src/core/network/Socket.cc $(top_srcdir)/src/core/network/Download.cc $(top_srcdir)/src/core/score/Analyze.cc $(top_srcdir)/src/core/score/ParseScore.cc $(top_srcdir)/src/core/profile/AccountProfile.cc $(top_srcdir)/src/util/Commons.cc $(top_srcdir)/src/uic/CommandLine.cc $(top_srcdir)/src/extra/calc/CalcManiaPP.cc $(top_srcdir)/src/libimpl/cJSON.c
