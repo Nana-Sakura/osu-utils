@@ -7,10 +7,12 @@
 #define basic_get_input(notice,var,condition,err_notice)                                            \
                             std::cout<<notice;                                                      \
                             std::cin>>var;                                                          \
-                            while(condition||std::cin.fail()){                                      \
+                            while((condition||std::cin.fail())&&(!std::cin.eof())){                 \
                                 LOG(err_notice);                                                    \
                                 std::cout<<notice;                                                  \
+                                std::cin.clear();                                                   \
                                 std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');  \
+                                std::cin>>var;                                                      \
                             }
 
 

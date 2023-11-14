@@ -28,7 +28,6 @@ namespace Utils{
             int c_fd=accept(s_fd,NULL,NULL);
             recv(c_fd,readbuf,sizeof(readbuf),0);
             LOG("Read success.");
-            printf("%s",readbuf);
             for(int i=11;readbuf[i]!=' ';i++){
                 code<<readbuf[i];
             }

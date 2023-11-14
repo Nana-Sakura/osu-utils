@@ -28,8 +28,7 @@ namespace Utils{
             basic_get_input("Type in if you want to download all of the beatmaps on the list(0 for Yes, 1 for No): ",i,(i<0)||(i>1),"Option format error, please type in again.");
             if(i){
                 basic_get_input("Type in the start position of the bplist you want to get(0 for default): ",range.offset,((range.offset>100)||(range.offset<0)),"Offset format error, please type in again.");
-                basic_get_input("Type in the end position of the bplist you want to get(100 for default): ",range.limit,((range.limit>range.offset)||(range.limit>100)),"Limit format error, please type in again.");
-
+                basic_get_input("Type in the end position of the bplist you want to get(100 for default): ",range.limit,((range.limit<range.offset)||(range.limit>100)),"Limit format error, please type in again.");
             }
             else{
                 range.offset=0;

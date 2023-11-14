@@ -105,8 +105,7 @@ namespace Utils{
                     std::cout<<" ";
                 }
             }
-            std::cout<<"] "<<std::setprecision(1)<<progress*100.0<<"%\r";
-            fflush(stdout);
+            std::cout<<"] "<<std::fixed<<std::setprecision(1)<<progress*100.0<<"%\r"<<std::flush;
         }
 
         int search_array(const char** array,int len,const std::string& val){
