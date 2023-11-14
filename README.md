@@ -2,7 +2,7 @@
 
 ## About
 
-osu-utils is a tool currently for downloading beatmaps on others' bplist, may add other functions in future updates, which is aimed to be SUPER EASY to use.
+osu-utils is a tool currently for downloading beatmaps on others' bplist, checking scores and basic best play analyzing, may add other functions in future updates, which is aimed to be SUPER EASY to use. 
 
 ## Build Instructions
 
@@ -24,28 +24,22 @@ Install dependencies below(Maybe you have to use package manager):
 gcc autoconf automake curl
 ```
 
-Prepare compilation scripts:
+Give build script permissions.
 
 ```
-autoreconf --install
+chmod +x build.sh
 ```
 
-
-Thanks to autotools, simply type in: 
-
-```
-./configure
-```
-
-Then build with:
+Simply execute the script.
 
 ```
-make
+./build.sh
 ```
 
 Enjoy the program with: 
 
 ```
+cd build
 ./osu-utils
 ```
 

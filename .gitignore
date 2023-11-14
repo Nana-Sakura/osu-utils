@@ -6,8 +6,10 @@
 # Userdata related folders
 /Cache/
 /Mapsets/
+/build/
 
 # Autotools related files
+/autoscan.log
 /missing
 /depcomp
 /compile
