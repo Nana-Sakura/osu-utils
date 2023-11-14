@@ -1,4 +1,4 @@
-#include "utils/core/util/Generic.h"
+#include "utils/util/Generic.h"
 
 void write_file(const char* path_to_file,const char* file_content,const char* write_mode){
     FILE* fp=fopen(path_to_file,write_mode);

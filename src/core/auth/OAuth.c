@@ -71,12 +71,20 @@ char* read_token(int token_type){
     return read_file(path);
 }
 
-void write_token(int token_type,const char* token_json){
+int write_token(int token_type,const char* token_json){
 
     // Parse json response to extract token.
 
     cJSON* root=cJSON_Parse(token_json);
     cJSON* item=cJSON_GetObjectItem(root,"access_token");
+
+    // Exception Process.
+
+    if(item==NULL){
+        cJSON_Delete(root);
+        return -1;
+    }
+
     char* token=item->valuestring;
 
     // Simply write.
@@ -88,6 +96,8 @@ void write_token(int token_type,const char* token_json){
     // Cleanup.
 
     cJSON_Delete(root);
+
+    return 0;
 }
 
 void get_code_request(void){

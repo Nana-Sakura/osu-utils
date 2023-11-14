@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <curl/curl.h>
-#include "log.h"
+#include <log.h>
 
 struct memory{
     char* response;

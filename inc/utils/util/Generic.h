@@ -9,8 +9,8 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <unistd.h>
-#include "cJSON.h"
-#include "log.h"
+#include <cJSON.h>
+#include <log.h>
 
 #if defined (_WIN32)||defined(__WIN32__)||defined(__MINGW32__)||(defined(__linux__)&&!defined(__ANDROID__))
 #define st_mtimespec st_mtim

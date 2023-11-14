@@ -27,6 +27,7 @@ char* curl_get_request(const char* path_to_source,const char* token){
         list=curl_slist_append(list,oauth);
         curl_easy_setopt(eh,CURLOPT_URL,path_to_source);
         curl_easy_setopt(eh,CURLOPT_HTTPHEADER,list);
+        curl_easy_setopt(eh,CURLOPT_VERBOSE,1);
         curl_easy_setopt(eh,CURLOPT_WRITEFUNCTION,cb);
         curl_easy_setopt(eh,CURLOPT_WRITEDATA,(void*) &chunk);
         curl_easy_setopt(eh,CURLOPT_TIMEOUT,30);

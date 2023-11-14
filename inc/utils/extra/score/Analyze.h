@@ -3,9 +3,9 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "cJSON.h"
+#include <cJSON.h>
 
-#include "utils/core/util/Generic.h"
+#include "utils/util/Generic.h"
 
 struct ranking_analyze{
     int s;

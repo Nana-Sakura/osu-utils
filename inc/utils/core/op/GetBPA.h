@@ -1,7 +1,7 @@
 #ifndef GetBPA_h
 #define GetBPA_h
 
-#include "log.h"
+#include <log.h>
 #include "utils/core/profile/AccountProfile.h"
 #include "utils/extra/score/Analyze.h"
 
