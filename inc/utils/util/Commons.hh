@@ -5,21 +5,15 @@
 #include <filesystem>
 #include <cJSON.h>
 
-#if (defined(__linux__)&&!defined(__ANDROID__))
-#define st_mtimespec st_mtim
-#elif defined (_WIN32)||defined(__WIN32__)||defined(__MINGW32__)
-#define st_mtimespec st_mtime
-#endif
-
 //#define osu_mode_Strings ((const char*[]){"osu","taiko","fruits","mania"})
 //#define check_target_Strings ((const char*[]){"best","recent","firsts"})
 //#define file_target_Strings ((const char*[]){"Cache/acg_token","Cache/cc_token","Cache/code","Cache/user.json"})
 //#define perfect_value ((const int[]){300,305,315,320})
 
-static const char* osu_mode_Strings[]={"osu","taiko","fruits","mania"};
-static const char* check_target_Strings[]={"best","recent","firsts"};
-static const char* file_target_Strings[]={"Cache/acg_token","Cache/cc_token","Cache/code","Cache/user.json"};
-static const int perfect_value[]={300,305,315,320};
+inline const char* osu_mode_Strings[]={"osu","taiko","fruits","mania"};
+inline const char* check_target_Strings[]={"best","recent","firsts"};
+inline const char* file_target_Strings[]={"Cache/acg_token","Cache/cc_token","Cache/code","Cache/user.json"};
+inline const int perfect_value[]={300,305,315,320};
 
 namespace Utils{
     namespace Commons{
