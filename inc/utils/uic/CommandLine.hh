@@ -26,12 +26,16 @@ namespace Utils{
         struct Utils::Commons::BeatmapSet_Range get_beatmapset_range(void);
 
         int get_beatmap_id(void);
+        
+        int request_video_confirm(void);
 
         struct Utils::Commons::statistics_mania get_result_info(void);
 
         cJSON* get_essential_mods(void);
 
         int menu_select(void);
+    
+        int menu_select_without_internet(void);
 
     }
 }

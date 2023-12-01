@@ -7,7 +7,7 @@
 namespace Utils{
     namespace Network{
 
-        void map_downloader(const std::string& score_list,struct Utils::Commons::BeatmapSet_Range range);
+        void map_downloader(const std::string& score_list,struct Utils::Commons::BeatmapSet_Range range,int request_video);
         
     }
 }

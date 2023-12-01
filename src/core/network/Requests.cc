@@ -1,6 +1,7 @@
 #include <curl/curl.h>
+#include <exception>
 #include <sstream>
-#include <cstring>
+#include <string>
 #include <log.hh>
 
 #include "utils/core/network/Requests.hh"
@@ -32,12 +33,12 @@ namespace Utils{
                 curl_easy_setopt(eh,CURLOPT_SSL_VERIFYPEER,0);
                 curl_easy_perform(eh);
                 curl_easy_cleanup(eh);
-
-                return chunk.response;
+                
+                return (chunk.response==NULL)?"":chunk.response;
             }
             else{
                 LOG("Null Pointer Exception.");
-                exit(16);
+                return "";
             }
         }
 
@@ -58,11 +59,11 @@ namespace Utils{
                 curl_easy_perform(eh);
                 curl_easy_cleanup(eh);
 
-                return chunk.response;
+                return (chunk.response==NULL)?"":chunk.response;
             }
             else{
                 LOG("Null Pointer Exception.");
-                exit(16);
+                return "";
             }
         }
 
@@ -78,11 +79,11 @@ namespace Utils{
                 curl_easy_perform(eh);
                 curl_easy_cleanup(eh);
 
-                return chunk.response;
+                return (chunk.response==NULL)?"":chunk.response;
             }
             else{
                 LOG("Null Pointer Exception.");
-                exit(16);
+                return "";
             }
         }
 
@@ -104,6 +105,6 @@ namespace Utils{
             mem->response[mem->size]=0;
             return realsize;
         }
-
+    
     }
 }

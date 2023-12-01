@@ -114,7 +114,9 @@ namespace Utils{
                     return i;
                 }
             }
-            exit(-1);
+            
+            // No result means facing error.
+            std::exit(-1);
         }
 
     }

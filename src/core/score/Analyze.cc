@@ -64,15 +64,12 @@ namespace Utils{
                 // Print first 5 and last 5 while accumulating related data.
 
                 if((i<5)||(i>=arraysize-5)){
-//                    ssize_t score_id;
-//                    cJSON* best_id=cJSON_GetObjectItem(score_info,"best_id");
                     cJSON* acc=cJSON_GetObjectItem(score_info,"accuracy");
-//                    score_id=cJSON_GetNumberValue(best_id);
-
+                    
                     // Get Mods applied.
                     
                     std::string mods_string=Utils::Commons::strf_mod_intro(mods);
-                    std::cout<<"#"<<std::setw(3)<<(i+1)<<" "<<std::setw(7)<<std::fixed<<std::setprecision(2)<<(pp->valuedouble)<<" "<<std::setw(6)<<std::fixed<<std::setprecision(2)<<(100.0*acc->valuedouble)<<"% "<<std::setw(2)<<ranking<<mods_string<<std::endl;//<<"https://osu.ppy.sh/scores/"<<osu_mode_Strings[info.mode]<<"/"<<score_id<<std::endl;
+                    std::cout<<"#"<<std::setw(3)<<(i+1)<<" "<<std::setw(7)<<std::fixed<<std::setprecision(2)<<(pp->valuedouble)<<" "<<std::setw(6)<<std::fixed<<std::setprecision(2)<<(100.0*acc->valuedouble)<<"% "<<std::setw(2)<<ranking<<mods_string<<std::endl;
                 }
 
                 // Accumulate.

@@ -1,5 +1,6 @@
 #include <string>
 #include <cJSON.h>
+#include <log.hh>
 
 #include "utils/core/auth/AuthorizationCodeGrant.hh"
 #include "utils/core/op/Query.hh"
@@ -27,8 +28,15 @@ namespace Utils{
             cJSON* root=cJSON_Parse(info_json.c_str());
             cJSON* uid=cJSON_GetObjectItem(root,"id");
             cJSON* mode=cJSON_GetObjectItem(root,"playmode");
-            info.uid=uid->valueint;
-            info.mode=Utils::Commons::search_array(osu_mode_Strings,4,mode->valuestring);
+            
+            if(uid==NULL){
+                LOG("Invaild user info, please check your network status.");
+            }
+            else{
+                info.uid=uid->valueint;
+                info.mode=Utils::Commons::search_array(osu_mode_Strings,4,mode->valuestring);
+            }
+            
             cJSON_Delete(root);
             return info;
         }

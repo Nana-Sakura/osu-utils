@@ -6,19 +6,15 @@
 #include <cJSON.h>
 
 #include "utils/core/network/Download.hh"
+#include "utils/util/Commons.hh"
 
 
 namespace Utils{
     namespace Network{
 
-        void map_downloader(const std::string& score_list,struct Utils::Commons::BeatmapSet_Range range){
+        void map_downloader(const std::string& score_list,struct Utils::Commons::BeatmapSet_Range range,int request_video){
             
             // Do prepare jobs.
-
-            if(score_list.compare("")==0){
-                LOG("Bplist is empty, maybe network error.");
-                exit(16);
-            }
 
             cJSON* root=cJSON_Parse(score_list.c_str());
             int arraysize=cJSON_GetArraySize(root);
@@ -59,7 +55,7 @@ namespace Utils{
                 // Download Progress.
 
                 std::stringstream url;
-                url<<"https://dl.sayobot.cn/beatmaps/download/full/"<<array[i];
+                url<<"https://dl.sayobot.cn/beatmaps/download/"<<video_target_Strings[request_video]<<"/"<<array[i];
 
                 Requests object(url.str(),"","");
                 std::string beatmap_object=object.curl_get_object_request();

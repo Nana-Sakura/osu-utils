@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 #include <log.hh>
@@ -18,7 +19,18 @@ namespace Utils{
 
         std::string get_username(void){
             std::string s;
-            basic_get_input("Type in the username(max 15 chars): ",s,(s.length()>15),"Username format error(no more than 15 chars), please type in again.")
+            //basic_get_input("Type in the username(max 15 chars): ",s,(s.length()>15),"Username format error(no more than 15 chars), please type in again.")
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+            std::cout<<"Type in the username(max 15 chars): ";
+            std::getline(std::cin,s,'\n');
+            while(((s.length()>15)||std::cin.fail())&&(!std::cin.eof())){
+                LOG("Username format error(no more than 15 chars), please type in again.");
+                std::cout<<"Type in the username(max 15 chars): ";
+                std::cin.clear();
+                std::cin.ignore(std::numeric_limits<std::streamsize>::max(),'\n');
+                std::cin>>s;
+            }
+            std::replace(s.begin(),s.end(),' ','_');
             return s;
         }
 
@@ -40,6 +52,12 @@ namespace Utils{
         int get_beatmap_id(void){
             int i;
             basic_get_input("Type in beatmap id: ",i,(i<0),"beatmap id format error, please type in again.");
+            return i;
+        }
+    
+        int request_video_confirm(void){
+            int i;
+            basic_get_input("Type in if you want videos in the mapsets(0 stands for Full Video, 1 for NoVideo): ",i,((i<0)||(i>1)),"Input format error, please type in again.");
             return i;
         }
         
@@ -93,6 +111,21 @@ namespace Utils{
             std::cout<<"0. Quit."<<std::endl;
             
             basic_get_input("Your selection: ",select,((select<0)||(select>99)),"Selection error, please type in again.");
+
+            std::cout<<std::endl;
+            return select;
+        }
+    
+        int menu_select_without_internet(void){
+            int select;
+            
+            std::cout<<std::endl;
+            std::cout<<"Type in number to select a function."<<std::endl;
+            std::cout<<"1. Calculate pp of any beatmap.(Currently mania only)"<<std::endl;
+            std::cout<<"2. Retry to connect to the Internet."<<std::endl;
+            std::cout<<"0. Quit."<<std::endl;
+            
+            basic_get_input("Your selection: ",select,((select<0)||(select>2)),"Selection error, please type in again.");
 
             std::cout<<std::endl;
             return select;
