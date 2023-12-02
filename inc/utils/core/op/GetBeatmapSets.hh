@@ -3,12 +3,14 @@
 
 #include <string>
 
-namespace Utils{
-    namespace Op{
+namespace Utils
+{
+    namespace Op
+    {
 
         void get_beatmapsets(const std::string& cc_token);
 
     }
-}
+}// namespace Utils
 
 #endif
